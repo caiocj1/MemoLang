@@ -1,0 +1,135 @@
+<script>
+    function fillEditWord() {
+        document.getElementById("edit-original-word").value = sessionStorage.getItem("original_word");
+        document.getElementById("edit-translation").value = sessionStorage.getItem("translation");
+        document.getElementById("edit-description").value = sessionStorage.getItem("description");
+        document.getElementById("edit-color").value = sessionStorage.getItem("color");
+    }
+</script>
+
+{{#.}}
+<a class="card bg-dark text-white" style="margin: 3%; text-decoration: none; border-color: {{color}};" role="button"
+    onclick="sessionStorage.setItem('original_word', '{{original_word}}'); 
+    sessionStorage.setItem('translation', '{{translation}}');
+    sessionStorage.setItem('description', '{{description}}');
+    sessionStorage.setItem('color', '{{color}}')
+    fillEditWord();" data-bs-toggle="modal" data-bs-target="#edit-word-modal">
+    <div class="card-body">
+        <h5 class="card-title" style="font-family: Georgia, 'Times New Roman', Times, serif;">{{original_word}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{translation}}</h6>
+        <p class="card-text">{{description}}</p>
+    </div>
+</a>
+{{/.}}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-dark float-bottom" data-bs-toggle="modal" data-bs-target="#new-word-modal">
+    <img src="img/plus.png" width="20" style="position: relative;">
+</button>
+
+<!-- New word form in modal -->
+<div class="modal fade" id="new-word-modal" tabindex="-1" aria-labelledby="newWordModalLabel" aria-hidden="true"
+    style="margin-top: 25%;">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="newWordModalLabel">New Word</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <label>
+                            <h6>Word:</h6>
+                        </label>
+                        <input type="text" id="original-word" placeholder="Write your new word" class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Translation:</h6>
+                        </label>
+                        <input type="text" id="translation" placeholder="Write translation of word"
+                            class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Description:</h6>
+                        </label>
+                        <input type="text" id="description" placeholder="Write comments about the word"
+                            class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label class="form-label">
+                            <h6>Color:</h6>
+                        </label>
+                        <input type="color" id="color" placeholder="#000000" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button id="new-word" type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit word form in modal -->
+<div class="modal fade" id="edit-word-modal" tabindex="-1" aria-labelledby="editWordModalLabel" aria-hidden="true"
+    style="margin-top: 25%;">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="editWordModalLabel">Edit Word</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <label>
+                            <h6>Word:</h6>
+                        </label>
+                        <input type="text" id="edit-original-word" class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Translation:</h6>
+                        </label>
+                        <input type="text" id="edit-translation" class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Description:</h6>
+                        </label>
+                        <input type="text" id="edit-description" class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label class="form-label">
+                            <h6>Color:</h6>
+                        </label>
+                        <input type="color" id="edit-color" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button id="delete-word" type="button" class="btn btn-secondary btn-sm">Delete</button>
+                <button id="edit-word" type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>

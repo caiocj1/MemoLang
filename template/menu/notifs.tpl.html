@@ -1,0 +1,97 @@
+<script>
+    function saveListCode(list_code) {
+        sessionStorage.setItem('list_code', list_code);
+    }
+
+    function saveShareCode(share_code) {
+        sessionStorage.setItem('share_code', share_code);
+    }
+
+    function fillInvite() {
+        var my_url = "http://brochet.polytechnique.fr:60471";
+        var list_code = sessionStorage.getItem("list_code");
+
+        $.getJSON(my_url + "/get_list_info.php?list_code=" + list_code, function (data) {
+            document.getElementById("invite-title").innerHTML = data.title;
+            document.getElementById("invite-description").innerHTML = data.description;
+            document.getElementById("invite-lang").innerHTML = data.language;
+            document.getElementById("invite-word-num").innerHTML = data.word_num + " words";
+        });
+    }
+</script>
+
+{{#.}}
+<div class="card bg-dark text-white" style="margin: 3%; text-decoration: none;">
+
+    <div class="card-body container-fluid">
+
+        <div class="row" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+            <div class="col-8">
+                <div class="card-title">
+                    <h4>List Invite</h4>
+                </div>
+            </div>
+
+            <div class="col-2" style="text-align: right; position: relative; bottom: 5px; left: 20px;">
+                <button class="btn btn-secondary btn-sm my-button"
+                    onclick="saveListCode('{{list_code}}'); saveShareCode('{{share_code}}'); fillInvite();" data-bs-toggle="modal"
+                    data-bs-target="#invite-modal">Open</button>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">From {{source}}</h6>
+            </div>
+        </div>
+    </div>
+</div>
+{{/.}}
+
+<!-- Open invite with its details -->
+<div class="modal fade" id="invite-modal" tabindex="-1" aria-labelledby="inviteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="top: 10%;">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="inviteModalLabel">Receive List?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <label>
+                            <h6 class="text-muted">List Title:</h6>
+                        </label>
+                        <div id="invite-title"></div>
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6 class="text-muted">Description:</h6>
+                        </label>
+                        <div id="invite-description"></div>
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6 class="text-muted">Language:</h6>
+                        </label>
+                        <div id="invite-lang"></div>
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <h6><div id="invite-word-num" class="text-muted"></div></h6>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="refuse-list" type="button" class="btn btn-secondary btn-sm">Refuse</button>
+                <button id="accept-list" type="button" class="btn btn-secondary btn-sm"
+                    data-bs-dismiss="modal">Accept</button>
+            </div>
+        </div>
+    </div>
+</div>

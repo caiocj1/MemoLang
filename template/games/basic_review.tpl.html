@@ -1,0 +1,61 @@
+<script>
+    $(document).ready(function () {
+        var my_url = "http://brochet.polytechnique.fr:60471";
+        var list_code = sessionStorage.getItem("list_code");
+
+        $.getJSON(my_url + "/get_random_word.php?list_code=" + list_code, function (data) {
+            if (data[0] != null) {
+                data = data[0];
+            }
+
+            document.getElementById('original-word').innerHTML += data.original_word;
+            document.getElementById('description').innerHTML += data.description;
+            sessionStorage.setItem('word_code', data.word_code);
+            document.getElementById('word-card').style.borderColor = data.color;
+
+            $.getJSON(my_url + "/get_list_info.php?list_code=" + list_code, function (list_data) {
+                document.getElementById('parent-list').innerHTML += list_data.title;
+
+                if (data.word_code == -1) {
+                    document.getElementById('reset-list').style.display = "block";
+                    document.getElementById('answering-block').style.display = "none";
+                }
+
+                $("#show-word").click(function () {
+                    document.getElementById('translation').innerHTML = data.translation;
+                });
+            });
+
+
+        });
+    });
+
+
+</script>
+
+<div class="container" style="margin-top: 30%;">
+    <div class="card bg-dark text-white" style="margin: 3%;" id="word-card">
+        <div class="card-header">
+            <h6 class="card-subtitle mb-2 text-muted" style="position: relative; top: 5px;" id="parent-list"></h6>
+        </div>
+        <div class="card-body text-center">
+            <h5 class="card-title" style="font-family: Georgia, 'Times New Roman', Times, serif;" id="original-word">
+            </h5>
+            <h6 class="card-subtitle text-muted" id="translation"></h6>
+            <p class="card-text" id="description" style="margin-top: 2%;"></p>
+        </div>
+    </div>
+
+    <div id="answering-block">
+        <button id="easy-word" class="btn btn-success btn-sm" style="margin-left: 3%;">Easy</button>
+        <button id="hard-word" class="btn btn-danger btn-sm" style="margin-left: 1%;">Hard</button>
+        <button id="show-word" class="btn btn-dark btn-sm" style="margin-left: 1%;">Show translation</button>
+        <!-- Future project: pronunciation 
+        <button id="hear-word" class="btn btn-dark btn-sm" style="margin-left: 1%;"><img src="img/sound.png"
+                width="15"></button> -->
+    </div>
+
+    <div id="reset-list" style="display: none;">
+        <button id="reset-btn" class="btn btn-dark" style="margin: 3%;">Reset</button>
+    </div>
+</div>

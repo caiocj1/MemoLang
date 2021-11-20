@@ -1,0 +1,64 @@
+<div class="card bg-dark text-white text-center" style="margin: 3%;">
+    <div class="card-body">
+        <h5>This list is empty.</h5>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-dark float-bottom" data-bs-toggle="modal" data-bs-target="#new-word-modal">
+    <img src="img/plus.png" width="20" style="position: relative;">
+</button>
+
+<!-- New word form in modal -->
+<div class="modal fade" id="new-word-modal" tabindex="-1" aria-labelledby="newWordModalLabel" aria-hidden="true"
+    style="margin-top: 25%;">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="newWordModalLabel">New Word</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <label>
+                            <h6>Word:</h6>
+                        </label>
+                        <input type="text" id="original-word" placeholder="Write your new word" class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Translation:</h6>
+                        </label>
+                        <input type="text" id="translation" placeholder="Write translation of word"
+                            class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Description:</h6>
+                        </label>
+                        <input type="text" id="description" placeholder="Write comments about the word"
+                            class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label class="form-label">
+                            <h6>Color:</h6>
+                        </label>
+                        <input type="color" id="color" placeholder="#000000" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button id="new-word" type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<script>
+    $(document).ready(function () {
+        var my_url = "http://brochet.polytechnique.fr:60471";
+        var list_code = sessionStorage.getItem("list_code");
+
+        $.getJSON(my_url + "/get_random_word.php?list_code=" + list_code, function (data) {
+            if (data[0] != null) {
+                data = data[0];
+            }
+
+            var word_code = data.word_code;
+            document.getElementById('original-word').innerHTML += data.original_word;
+            document.getElementById('description').innerHTML += data.description;
+            sessionStorage.setItem('word_code', word_code);
+
+            $.getJSON(my_url + "/get_list_info.php?list_code=" + list_code, function (list_data) {
+                document.getElementById('parent-list').innerHTML += list_data.title;
+            });
+
+            if (word_code == -1) {
+                document.getElementById('reset-list').style.display = "block";
+                document.getElementById('answering-block').style.display = "none";
+            }
+            else {
+                $.post(my_url + "/get_four_words.php?list_code=" + list_code,
+                    { word_code: word_code },
+                    function (ans_data) {
+                        console.log(ans_data);
+                        document.getElementById('answer1').innerHTML += ans_data[0].translation;
+                        document.getElementById('answer2').innerHTML += ans_data[1].translation;
+                        document.getElementById('answer3').innerHTML += ans_data[2].translation;
+                        document.getElementById('answer4').innerHTML += ans_data[3].translation;
+                    });
+            }
+        });
+    });
+</script>
+
+<div class="container" style="margin-top: 30%;">
+    <div class="card bg-dark text-white" style="margin: 3%;">
+        <div class="card-header">
+            <h6 class="card-subtitle mb-2 text-muted" style="position: relative; top: 5px;" id="parent-list"></h6>
+        </div>
+        <div class="card-body text-center">
+            <h5 class="card-title" style="font-family: Georgia, 'Times New Roman', Times, serif;" id="original-word">
+            </h5>
+            <p class="card-text" id="description"></p>
+        </div>
+    </div>
+
+    <div id="answering-block" class="text-center">
+        <button id="answer1" class="btn btn-dark" style="margin-top: 3%; width: 94%;"></button>
+        <button id="answer2" class="btn btn-dark" style="margin-top: 2%; width: 94%;"></button>
+        <button id="answer3" class="btn btn-dark" style="margin-top: 2%; width: 94%;"></button>
+        <button id="answer4" class="btn btn-dark" style="margin-top: 2%; width: 94%;"></button>
+    </div>
+
+    <div id="reset-list" style="display: none;">
+        <button id="reset-btn" class="btn btn-secondary" style="margin: 3%;">Reset</button>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+<script>
+    function saveListCode(list_code) {
+        sessionStorage.setItem('list_code', list_code);
+    }
+
+    function fillEditList() {
+        var my_url = "http://brochet.polytechnique.fr:60471";
+        var list_code = sessionStorage.getItem("list_code");
+
+        $.getJSON(my_url + "/get_list_info.php?list_code=" + list_code, function (data) {
+            document.getElementById("edit-list-title").value = data.title;
+            document.getElementById("edit-list-description").value = data.description;
+            document.getElementById("edit-list-lang").value = data.language;
+            document.getElementById("edit-list-color").value = data.color;
+        });
+    }
+
+    function clearModal() {
+        $('#game-modal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    }
+</script>
+
+<!-- Mustache loop through lists -->
+{{#.}}
+<div class="card bg-dark text-white" style="margin: 3%; text-decoration: none; border-color: {{color}};">
+    <div class="card-body container-fluid">
+        <div class="row" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+            <div class="col-8">
+                <a class="card-title" href="#inlist" onclick="saveListCode('{{list_code}}')">
+                    <h5>{{title}}</h5>
+                </a>
+            </div>
+
+            <div class="col-1" style="text-align: right; position: relative; bottom: 10px; right: 35px;">
+                <button class="btn btn-dark btn-sm my-button" onclick="saveListCode('{{list_code}}');"
+                    data-bs-toggle="modal" data-bs-target="#game-modal"><img src="img/play-icon.png"
+                        width="15"></button>
+            </div>
+
+            <div class="col-1" style="text-align: right; position: relative; bottom: 10px; right: 20px;">
+                <button class="btn btn-dark btn-sm my-button" onclick="saveListCode('{{list_code}}'); fillEditList();"
+                    data-bs-toggle="modal" data-bs-target="#edit-list-modal"><img src="img/settings.png"
+                        width="15"></button>
+            </div>
+
+            <div class="col-1" style="text-align: right; position: relative; bottom: 10px; right: 5px;">
+                <button class="btn btn-dark btn-sm my-button" onclick="saveListCode('{{list_code}}');"
+                    data-bs-toggle="modal" data-bs-target="#share-list-modal"><img src="img/share_list.png"
+                        width="15"></button>
+            </div>
+        </div>
+
+        <a class="card-title" href="#inlist" onclick="saveListCode('{{list_code}}')">
+            <div class="row">
+                <div class="col">
+                    <h6 class="card-subtitle mb-2 text-muted">{{language}}</h6>
+                </div>
+                <div class="col" style="text-align: right;">
+                    <h6 class="card-subtitle mb-2 text-muted">{{word_num}} words</h6>
+                </div>
+            </div>
+
+            <p class="card-text">{{description}}</p>
+        </a>
+    </div>
+</div>
+{{/.}}
+
+<!-- New list button -->
+<a class="btn btn-dark float-bottom" href="#newlist" role="button">
+    <img src="img/plus.png" width="20" style="position: relative; top: 8px;">
+</a>
+
+<!-- Modal to edit lists -->
+<div class="modal fade" id="edit-list-modal" tabindex="-1" aria-labelledby="editListModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="top: 10%;">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="editListModalLabel">Edit List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <label>
+                            <h6>List Title:</h6>
+                        </label>
+                        <input type="text" id="edit-list-title" class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Description:</h6>
+                        </label>
+                        <input type="text" id="edit-list-description" class="form-control" />
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label>
+                            <h6>Language:</h6>
+                        </label>
+                        <div class="input-group">
+                            <select class="custom-select form-control" id="edit-list-lang">
+                                <option value="Arabic">Arabic</option>
+                                <option value="French">French</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Portuguese">Portuguese</option>
+                                <option value="Russian">Russian</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 4%;">
+                        <label class="form-label">
+                            <h6>Color:</h6>
+                        </label>
+                        <input type="color" id="edit-list-color" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button id="delete-list" type="button" class="btn btn-secondary btn-sm">Delete</button>
+                <button id="edit-list" type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal to share list -->
+<div class="modal fade" id="share-list-modal" tabindex="-1" aria-labelledby="shareListModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="top: 25%;">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareListModalLabel">Share List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <label>
+                            <h6>User to send list:</h6>
+                        </label>
+                        <input type="text" id="target-user" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button id="share-list" type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal to choose game -->
+<div class="modal fade" id="game-modal" tabindex="-1" aria-labelledby="editListModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="top: 20%;">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="editListModalLabel">Practice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <a class="btn btn-secondary" href="#basic_review" role="button" onclick="clearModal();">Basic
+                        review</a>
+                </div>
+                <div class="row" style="margin-top: 3%;">
+                    <a class="btn btn-secondary" href="#write_foreign" role="button" onclick="clearModal();">Write in
+                        foreign language</a>
+                </div>
+                <div class="row" style="margin-top: 3%;">
+                    <a class="btn btn-secondary" href="#write_translation" role="button" onclick="clearModal();">Write
+                        translation</a>
+                </div>
+                <div class="row" style="margin-top: 3%;">
+                    <button id="select-def-game" class="btn btn-secondary" onclick="clearModal();">Select definition
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

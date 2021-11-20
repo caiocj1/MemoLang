@@ -1,0 +1,40 @@
+<script>
+    $(document).ready(function () {
+        var my_url = "http://brochet.polytechnique.fr:60471";
+        var access_token = localStorage.getItem("access_token");
+        $.getJSON(my_url + "/get_user_info.php",
+            { access_token: access_token },
+            function (data) {
+                console.log(data);
+                document.getElementById('username').innerHTML = data.username + "\'s Profile";
+                document.getElementById('name').innerHTML = data.first_name + " " + data.last_name;
+                document.getElementById('email').innerHTML = data.email;
+                document.getElementById('word-progress').innerHTML = data.num_learned + "/" + data.num_words + " words learned!";
+            });
+    });
+</script>
+
+<div class="container card bg-dark text-white">
+    <div class="card-header">
+        <h2 id="username" style="padding-top: 3%;"></h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <h6>Name</h6>
+            <p id="name"></p>
+        </div>
+        <div class="row">
+            <h6>Email</h6>
+            <p id="email"></p>
+        </div>
+        <div class="row">
+            <h6>Progress</h6>
+            <p id="word-progress"></p>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center" style="margin-top: 3%;">
+    <button type="button" id="logout" class="btn btn-dark btn-lg"
+        style="padding-left: 2.5rem; padding-right: 2.5rem;">Logout</button>
+</div>

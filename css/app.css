@@ -1,0 +1,46 @@
+body {
+    background-color:#E4E4E4;
+    background-image:linear-gradient(to bottom, #202020 0%, #0b0d2e 100%);
+    background-attachment: fixed;
+    font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    font-size:12px;
+    height:100vh;
+    margin:0px;
+    padding:0px;
+    /* Padding to avoid the "unsafe" areas behind notches in the screen */
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    width:100%;
+}
+
+#brand-name {
+    padding-top: 15px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    color: linear-gradient(to bottom, #9fadec 0%, #bdbdc0 100%);
+}
+
+.float-bottom{
+	position:fixed;
+	width:50px;
+	height:50px;
+	bottom:5%;
+	right:5%;
+	background-color:rgb(43, 43, 43);
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px rgb(24, 24, 24);
+}
+
+.my-button {
+	vertical-align: text-top;
+}
+
+a {
+	text-decoration: none;
+	color: aliceblue;
+}
+
+a:hover {
+    color: inherit;
+    text-decoration: none;
+}
